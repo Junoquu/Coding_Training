@@ -1,2 +1,4 @@
+from collections import Counter
+
 def solution(array, n):
-    return array.count(n)
+    return Counter(array).get(n)
