@@ -1,73 +1,83 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <cstring>
 #include <algorithm>
 using namespace std;
 
-vector<int> v[1001];
+int n, m, v;
+int to, from;
 
-int N, M, V;
-int from, to;
+vector<int> graph[1001];
+
 int visited[1001];
 
-void dfs(int st)
+void DFS(int st)
 {
 	cout << st << ' ';
-	
-	for (int i = 0; i < v[st].size(); i++)
+	for (int i = 0; i < graph[st].size(); i++)
 	{
-		int to = v[st][i];
+		int to = graph[st][i];
 		if (visited[to])
+		{
 			continue;
+		}
 
 		visited[to] = 1;
-		dfs(to);
+		DFS(to);
+		
 	}
 }
 
-void bfs(int st)
+void BFS(int st)
 {
-	queue<int>q;
-	visited[st] = 1;
+	queue<int> q;
 	q.push(st);
-
+	visited[st] = 1;
+	
 	while (!q.empty())
 	{
 		int now = q.front();
 		q.pop();
 		cout << now << ' ';
-
-		for (int i = 0; i < v[now].size(); i++)
+		for (int i = 0; i < graph[now].size(); i++)
 		{
-			int next = v[now][i];
-			if (visited[next])
-				continue;
+			int np = graph[now][i];
 
-			visited[next] = 1;
-			q.push(next);
+			if (visited[np])
+			{
+				continue;
+			}
+			visited[np] = 1;
+			q.push(np);
 		}
 	}
 }
 
 int main()
 {
-	cin >> N >> M >> V;
+	cin >> n >> m >> v;
 
-	for (int i = 0; i < M; i++)
+	for (int i = 0; i < m; i++)
 	{
-		cin >> from >> to;
-		v[from].push_back(to);
-		v[to].push_back(from);
+		cin >> to >> from;
+		graph[to].push_back(from);
+		graph[from].push_back(to);
 	}
 
-	for (int i = 1; i <= N; i++) {
-		sort(v[i].begin(), v[i].end());
+	for (int i = 0; i <= n; i++)
+	{
+		sort(graph[i].begin(), graph[i].end());
 	}
+	
+	visited[v] = 1;
+	DFS(v);
 
-	visited[V] = 1;
-	dfs(V);
-	memset(visited, 0, sizeof(visited));
+	for (int i = 0; i <= n; i++)
+	{
+		visited[i] = 0;
+	}
 	cout << '\n';
-	bfs(V);
+
+	BFS(v);
+	
 }
