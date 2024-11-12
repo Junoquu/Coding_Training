@@ -5,24 +5,24 @@ using namespace std;
 
 int T;
 int n, b;
-vector<int> employee;
+vector<int> height;
 int res;
 
 void init()
 {
-	employee.clear();
+	height.clear();
 	res = 21e8;
 }
 
 void input()
 {
-	int cm; 
 	cin >> n >> b;
-	employee.resize(n);
+
+	height.resize(n);
+
 	for (int i = 0; i < n; i++)
 	{
-		cin >> cm;
-		employee[i] = cm;
+		cin >> height[i];
 	}
 }
 
@@ -30,28 +30,29 @@ void solve(int idx, int cur_height)
 {
 	if (cur_height >= b)
 	{
-		res = min(res, cur_height - b);
+		res = min(res, cur_height-b);
 		return;
 	}
 
-	if (idx >= n)
+	if (idx>=n)
 	{
 		return;
 	}
 
 	solve(idx + 1, cur_height);
-	solve(idx + 1, cur_height + employee[idx]);
+	solve(idx + 1, cur_height + height[idx]);
 }
 
 int main()
 {
 	cin >> T;
 
-	for (int t = 1; t <= T; ++t) {
+	for (int tc = 1; tc <= T; tc++)
+	{
 		init();
 		input();
 		solve(0, 0);
 
-		cout << "#" << t << " " << res << endl;
+		cout << "#" << tc << " " << res << "\n";
 	}
 }
